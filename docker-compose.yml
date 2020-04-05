@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+        apache:
+                image: httpd:latest
+                container_name: apache
+                networks:
+                        - front
+                        - back
+                expose:
+                        - 6666
+                ports: 
+                        - 6666:80
+                depends_on:
+                        - database
+
+        php:
+                image: php:latest
+                container_name: php
+                networks:
+                        - back
+                depends_on:
+                        - database
+
+        database:
+                image: mysql:latest
+                container_name: database
+                networks:
+                        - back
+                environment:
+                        - MYSQL_ROOT_PASSWORD=root
+
+networks:
+        front:
+        back:
